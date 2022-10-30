@@ -1,29 +1,29 @@
 <template>
-		<my-modal 
+	<my-modal 
 		@closeModal="this.showModal = false"
 		:class="{'is-active': showModal}">
-				<UpdateForm @submitUpdate="submitUpdate" :note_to_update="note_to_update"/>
-		</my-modal>
-		<my-message @closeMessage="closeMessage" v-if="showMessages" :messages="messages"/>
-		<div class="columns">
-				<div class="column">
-						<NoteForm @postNote="postNote" style="max-width: 35rem"/>	
-						<progress v-if="isLoading" class="progress is-small is-primary mt-6" max="100"></progress>
-				</div>
-				<div class="column is-1"></div>
-				<div class="column">
-						<div v-if="notes.length == 0" class="title is-size-4">Notes are empty.</div>
-						<div v-if="notes.length == 0" class="is-size-5">You can post something using the form.</div>
-						<NoteCard 
-						@updateNote="updateNote"
-						@deleteNote="deleteNote"
-						v-for="note in notes" 
-						:key="note.id" 
-						:note="note" 
-						style="max-width:40rem"
-						class="mb-5"/>		
-				</div>
+		<UpdateForm @submitUpdate="submitUpdate" :note_to_update="note_to_update"/>
+	</my-modal>
+	<my-message @closeMessage="closeMessage" v-if="showMessages" :messages="messages"/>
+	<div class="columns">
+		<div class="column">
+			<NoteForm @postNote="postNote" style="max-width: 35rem"/>	
+			<progress v-if="isLoading" class="progress is-small is-primary mt-6" max="100"></progress>
 		</div>
+		<div class="column is-1"></div>
+		<div class="column">
+			<div v-if="notes.length == 0" class="title is-size-4">Notes are empty.</div>
+			<div v-if="notes.length == 0" class="is-size-5">You can post something using the form.</div>
+			<NoteCard 
+			@updateNote="updateNote"
+			@deleteNote="deleteNote"
+			v-for="note in notes" 
+			:key="note.id" 
+			:note="note" 
+			style="max-width:40rem"
+			class="mb-5"/>		
+		</div>
+	</div>
 </template>
 
 <script>
