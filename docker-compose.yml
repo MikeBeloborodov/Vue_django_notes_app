@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_INITDB_ARGS: "-A md5"
+      PGDATA: /tmp
+    ports:
+      - 54321:5432
+    volumes:
+      - "./rest_api/pg_data:/var/lib/postgresql/data"
+
+  api:
+    build: ./rest_api
+    container_name: django_api
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
+    volumes:
+      - "./rest_api:/usr/src/app"
+
+  frontend:
+    build: ./frontend
+    container_name: vue_frontend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - api
+    ports:
+      - 8080:8080
+    volumes:
+      - "./frontend:/usr/src/app"
